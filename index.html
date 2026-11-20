@@ -12,13 +12,13 @@
 main{max-width:760px;margin:auto;padding:22px 15px 50px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.brand{font-size:22px;font-weight:800}.sub{color:var(--muted);font-size:12px;margin-top:6px}
 .card{background:rgba(19,30,48,.96);border:1px solid var(--line);border-radius:18px;padding:17px;margin:13px 0;box-shadow:0 12px 35px #0002}
 h2{font-size:17px;margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#0d1727;border:1px solid var(--line);border-radius:14px;padding:14px}.metric small{color:var(--muted)}.num{font-size:20px;font-weight:800;margin-top:9px;word-break:break-word}.green{color:var(--green)}.red{color:var(--red)}
-label{display:block;font-size:13px;color:#c6d2e2;margin:12px 0 6px}input,select,button{font:inherit}input,select{width:100%;padding:13px;border-radius:11px;border:1px solid #34445c;background:#0b1423;color:var(--text);outline:none}button{border:0;border-radius:11px;padding:13px 16px;background:#4779df;color:white;font-weight:700;cursor:pointer}button.secondary{background:#26364d}button.danger{background:#512b35}button:disabled{opacity:.5}.row{display:flex;gap:9px;align-items:center}.row>*{flex:1}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{flex:1;background:#1b2a40}.tabs button.active{background:#4779df}.hidden{display:none!important}.muted{color:var(--muted);font-size:12px;line-height:1.8}.item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.item b{display:block;font-size:14px}.item small{color:var(--muted);display:block;margin-top:5px}.amount{font-weight:800;white-space:nowrap}.status{font-size:12px;color:var(--muted);margin-top:8px}.pill{display:inline-block;border:1px solid var(--line);border-radius:30px;padding:5px 9px;color:var(--muted);font-size:11px}
+label{display:block;font-size:13px;color:#c6d2e2;margin:12px 0 6px}input,select,button{font:inherit}input,select{width:100%;padding:13px;border-radius:11px;border:1px solid #34445c;background:#0b1423;color:var(--text);outline:none}button{border:0;border-radius:11px;padding:13px 16px;background:#4779df;color:white;font-weight:700;cursor:pointer}button.secondary{background:#26364d}button.danger{background:#512b35}button:disabled{opacity:.5}.row{display:flex;gap:9px;align-items:center}.row>*{flex:1}.tabs{display:flex;gap:8px;margin:14px 0}.tabs button{flex:1;background:#1b2a40}.tabs button.active{background:#4779df}.hidden{display:none!important}.muted{color:var(--muted);font-size:12px;line-height:1.8}.item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.item b{display:block;font-size:14px}.item small{color:var(--muted);display:block;margin-top:5px}.amount{font-weight:800;white-space:nowrap}.status{font-size:12px;color:var(--muted);margin-top:8px}.pill{display:inline-block;border:1px solid var(--line);border-radius:30px;padding:5px 9px;color:var(--muted);font-size:11px}.catrow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.catrow:last-child{border:0}
 @media(max-width:430px){.num{font-size:17px}.card{padding:14px}.brand{font-size:19px}}
 </style>
 </head>
 <body>
 <main>
- <div class="top"><div><div class="brand">حسابداری من</div><div class="sub">ثبت دخل‌وخرج و محاسبه موجودی</div></div><span class="pill">تومان</span></div>
+ <div class="top"><div><div class="brand">حسابداری من</div><div class="sub">ثبت دخل‌وخرج و کنترل هزینه‌ها</div></div><span class="pill">تومان</span></div>
  <section id="setup" class="card">
   <h2>اتصال به حساب آنلاین</h2>
   <p class="muted">اطلاعات پروژه Supabase را وارد کن. این اطلاعات در همین مرورگر ذخیره می‌شوند. فقط Project URL و کلید عمومی Publishable مجاز است؛ هرگز کلید secret یا service_role وارد نکن.</p>
@@ -44,7 +44,7 @@ label{display:block;font-size:13px;color:#c6d2e2;margin:12px 0 6px}input,select,
    <div class="tabs"><button class="active" data-type="income">درآمد</button><button data-type="expense">هزینه</button></div>
    <label>مبلغ (تومان)</label><input id="amount" type="number" min="1" inputmode="numeric" placeholder="مثلاً ۲۰۰۰۰۰۰">
    <label>دسته‌بندی</label><select id="category"></select>
-   <label>توضیحات</label><input id="description" placeholder="مثلاً فروش LCD یا خرید لباس">
+   <label>توضیحات</label><input id="description" placeholder="توضیح اختیاری">
    <label>تاریخ</label><input id="date" type="date">
    <button id="save" style="width:100%;margin-top:15px">ثبت تراکنش</button><div id="saveMsg" class="status"></div>
   </div>
@@ -52,6 +52,12 @@ label{display:block;font-size:13px;color:#c6d2e2;margin:12px 0 6px}input,select,
    <h2>موجودی اولیه</h2><p class="muted">موجودی نقد و کارت را با هم وارد کن. این مبلغ مبنای محاسبه موجودی خواهد بود.</p>
    <label>موجودی اولیه (تومان)</label><input id="opening" type="number" min="0" inputmode="numeric" placeholder="مثلاً ۱۵۰۰۰۰۰۰۰">
    <button id="saveOpening" class="secondary" style="width:100%;margin-top:12px">ذخیره موجودی اولیه</button><div id="openingMsg" class="status"></div>
+  </div>
+  <div class="card">
+   <h2>گزارش ماهانه دسته‌بندی‌ها</h2>
+   <p class="muted" id="categoryMonth"></p>
+   <h3 style="font-size:14px;color:var(--green)">درآمدها</h3><div id="incomeCats"></div>
+   <h3 style="font-size:14px;color:var(--red);margin-top:18px">هزینه‌ها</h3><div id="expenseCats"></div>
   </div>
   <div class="card">
    <h2>گزارش و سوابق</h2>
@@ -69,7 +75,10 @@ let client=null, txType='income', rows=[], settings=null;
 const $=id=>document.getElementById(id);
 const fa=n=>Number(n||0).toLocaleString('fa-IR');
 const today=()=>new Date().toISOString().slice(0,10);
-const categories={income:['فروش کالا','تعمیرات','تعویض LCD و گلس','نصب بازی','فروش لوازم جانبی','حقوق و دستمزد','سایر درآمدها'],expense:['خرید جنس و قطعات','هزینه مغازه','خرید شخصی','خوراک و تفریح','خودرو و حمل‌ونقل','قبوض و خدمات','سایر هزینه‌ها']};
+const categories={
+ income:['درآمد مغازه','حقوق و درآمد شخصی','سایر درآمدها'],
+ expense:['مغازه و کسب‌وکار','ماشین و بنزین','خوراک و غذا','خرید شخصی','خانه و خانواده','تفریح و سرگرمی','قبض و اینترنت','تعمیرات و لوازم','سایر هزینه‌ها']
+};
 function setCats(){ $('category').innerHTML=categories[txType].map(x=>`<option>${x}</option>`).join('');document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===txType));}
 function msg(id,t){$(id).textContent=t;}
 $('date').value=today();
@@ -81,7 +90,21 @@ $('login').onclick=async()=>{try{const {error}=await client.auth.signInWithPassw
 $('signup').onclick=async()=>{try{const {data,error}=await client.auth.signUp({email:$('email').value.trim(),password:$('password').value});if(error)throw error;msg('authMsg',data.session?'حساب ساخته شد.':'حساب ساخته شد؛ اگر تأیید ایمیل فعال باشد، ایمیلت را بررسی کن.');if(data.session)await enter();}catch(e){msg('authMsg',e.message)}};
 $('logout').onclick=async()=>{await client.auth.signOut();$('app').classList.add('hidden');$('auth').classList.remove('hidden')};
 async function refresh(){const {data,error}=await client.from('transactions').select('*').order('transaction_date',{ascending:false}).order('created_at',{ascending:false});if(error)throw error;rows=data||[];const {data:s,error:se}=await client.from('account_settings').select('*').maybeSingle();if(se)throw se;settings=s;$('opening').value=s?.opening_balance??0;render();}
-function render(){const now=today(),month=now.slice(0,7);const monthly=rows.filter(x=>x.transaction_date?.startsWith(month));const inc=monthly.filter(x=>x.type==='income').reduce((a,x)=>a+Number(x.amount),0),exp=monthly.filter(x=>x.type==='expense').reduce((a,x)=>a+Number(x.amount),0);const allInc=rows.filter(x=>x.type==='income').reduce((a,x)=>a+Number(x.amount),0),allExp=rows.filter(x=>x.type==='expense').reduce((a,x)=>a+Number(x.amount),0);$('income').textContent=fa(inc)+' تومان';$('expense').textContent=fa(exp)+' تومان';$('balance').textContent=fa(Number(settings?.opening_balance||0)+allInc-allExp)+' تومان';draw(rows);}
+function render(){
+ const now=today(),month=now.slice(0,7),monthly=rows.filter(x=>x.transaction_date?.startsWith(month));
+ const inc=monthly.filter(x=>x.type==='income').reduce((a,x)=>a+Number(x.amount),0),exp=monthly.filter(x=>x.type==='expense').reduce((a,x)=>a+Number(x.amount),0);
+ const allInc=rows.filter(x=>x.type==='income').reduce((a,x)=>a+Number(x.amount),0),allExp=rows.filter(x=>x.type==='expense').reduce((a,x)=>a+Number(x.amount),0);
+ $('income').textContent=fa(inc)+' تومان';$('expense').textContent=fa(exp)+' تومان';$('balance').textContent=fa(Number(settings?.opening_balance||0)+allInc-allExp)+' تومان';
+ $('categoryMonth').textContent='جمع دسته‌بندی‌ها برای ماه جاری';
+ drawCategoryTotals('incomeCats',monthly.filter(x=>x.type==='income'));
+ drawCategoryTotals('expenseCats',monthly.filter(x=>x.type==='expense'));
+ draw(rows);
+}
+function drawCategoryTotals(id,list){
+ const totals={};list.forEach(x=>{const c=x.category||'بدون دسته‌بندی';totals[c]=(totals[c]||0)+Number(x.amount||0);});
+ const sorted=Object.entries(totals).sort((a,b)=>b[1]-a[1]);
+ $(id).innerHTML=sorted.length?sorted.map(([name,total])=>`<div class="catrow"><span>${esc(name)}</span><b>${fa(total)} تومان</b></div>`).join(''):'<p class="muted">هنوز موردی در این ماه ثبت نشده است.</p>';
+}
 function draw(list){$('transactions').innerHTML=list.length?list.map(x=>`<div class="item"><div><b>${esc(x.category)}</b><small>${esc(x.description||'بدون توضیح')} · ${esc(x.transaction_date)}</small></div><div class="amount ${x.type==='income'?'green':'red'}">${x.type==='income'?'+':'−'}${fa(x.amount)}</div></div>`).join(''):'<p class="muted">هنوز تراکنشی ثبت نشده است.</p>';}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 $('save').onclick=async()=>{try{const amount=Number($('amount').value);if(!Number.isSafeInteger(amount)||amount<=0)throw Error('مبلغ معتبر و به تومان وارد کن.');const payload={type:txType,amount,category:$('category').value,description:$('description').value.trim(),transaction_date:$('date').value||today()};const {error}=await client.from('transactions').insert(payload);if(error)throw error;$('amount').value='';$('description').value='';msg('saveMsg','تراکنش با موفقیت ثبت شد.');await refresh();}catch(e){msg('saveMsg',e.message)}};
